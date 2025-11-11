@@ -3,16 +3,11 @@ from sqlalchemy.orm import Session
 from .. import schemas
 from ..utils import security
 from ..models.user import User
-from ..utils.database import SessionLocal
+from ..dependencies import get_db, get_current_user # Import get_current_user
 
 router = APIRouter()
 
-def get_db():
-    db = SessionLocal()
-    try:
-        yield db
-    finally:
-        db.close()
+# Removed local get_db function
 
 @router.post("/register", response_model=schemas.Token)
 async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
@@ -28,7 +23,7 @@ async def register(user: schemas.UserCreate, db: Session = Depends(get_db)):
     db.commit()
     db.refresh(db_user)
     access_token = security.create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "user_id": db_user.id}
 
 @router.post("/login", response_model=schemas.Token)
 async def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
@@ -40,7 +35,7 @@ async def login(user: schemas.UserLogin, db: Session = Depends(get_db)):
             headers={"WWW-Authenticate": "Bearer"},
         )
     access_token = security.create_access_token(data={"sub": user.email})
-    return {"access_token": access_token, "token_type": "bearer"}
+    return {"access_token": access_token, "token_type": "bearer", "user_id": db_user.id}
 
 @router.post("/logout")
 async def logout():

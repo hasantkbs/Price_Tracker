@@ -80,9 +80,8 @@ source venv/bin/activate
 
 **Install Dependencies:**
 ```bash
-pip install -r requirements.txt # (You'll need to create this file)
+pip install -r requirements.txt
 ```
-*Note: I will create the `requirements.txt` file in the next step.*
 
 **Environment Variables:**
 Create a `.env` file in the `backend` directory with the following content:
@@ -132,7 +131,8 @@ flutter run
 ## Development Notes
 
 -   **Database:** Currently uses SQLite for simplicity. For production, consider PostgreSQL.
--   **Scrapers:** The `generic_scraper.py` is a basic implementation. More robust, site-specific scrapers will be needed for reliable price tracking.
+-   **Authentication Hashing:** The password hashing scheme has been updated from `bcrypt` to `pbkdf2_sha256` using `passlib` for improved compatibility and to resolve environment-specific issues.
+-   **Scrapers:** The `generic_scraper.py` is a basic implementation. More robust, site-specific scrapers will be needed for reliable price tracking. An improved mocking strategy has been implemented for testing to prevent actual network calls.
 -   **Notifications:** Currently, price drop notifications are logged in the backend. Frontend on-screen notifications are planned. Firebase Cloud Messaging (FCM) integration was postponed.
 -   **Authentication:** JWT tokens are generated but not yet stored or automatically sent with subsequent requests from the frontend. This will need to be implemented.
 -   **User Products:** The `user_id` in `NotificationQueue` and the logic for associating products with specific users in `check_prices` task needs to be made dynamic.

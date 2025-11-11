@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
+import 'package:frontend/utils/config.dart'; // Import AppConfig
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -17,7 +19,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Future<void> _login() async {
     if (_formKey.currentState!.validate()) {
       final response = await http.post(
-        Uri.parse('http://localhost:8000/auth/login'),
+        Uri.parse('${AppConfig.baseUrl}/auth/login'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -28,15 +30,16 @@ class _LoginScreenState extends State<LoginScreen> {
       );
 
       if (response.statusCode == 200) {
-        // If the server returns a 200 OK response,
-        // then parse the JSON.
-        // final json = jsonDecode(response.body);
-        // final token = json['access_token'];
-        // You can save the token for future requests
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        final String accessToken = responseData['access_token'];
+        final int userId = responseData['user_id'];
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', accessToken);
+        await prefs.setInt('user_id', userId);
+        
         Navigator.pushReplacementNamed(context, '/home');
       } else {
-        // If the server did not return a 200 OK response,
-        // then throw an exception.
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to login')),
         );

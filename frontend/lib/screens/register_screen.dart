@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart'; // Import shared_preferences
+import 'package:frontend/utils/config.dart'; // Import AppConfig
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -18,7 +20,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   Future<void> _register() async {
     if (_formKey.currentState!.validate()) {
       final response = await http.post(
-        Uri.parse('http://localhost:8000/auth/register'),
+        Uri.parse('${AppConfig.baseUrl}/auth/register'),
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -30,7 +32,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
       );
 
       if (response.statusCode == 200) {
-        Navigator.pop(context); // Go back to login screen
+        final Map<String, dynamic> responseData = jsonDecode(response.body);
+        final String accessToken = responseData['access_token'];
+        final int userId = responseData['user_id'];
+
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('access_token', accessToken);
+        await prefs.setInt('user_id', userId);
+        
+        Navigator.pushReplacementNamed(context, '/home'); // Navigate directly to home
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Failed to register')),
