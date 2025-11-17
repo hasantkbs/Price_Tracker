@@ -1,10 +1,10 @@
 from sqlalchemy.orm import Session
-from backend.app.utils.database import SessionLocal
+from .utils.database import SessionLocal
 from fastapi import Depends, HTTPException, status # Added
-from backend.app.models.user import User # Added
-from backend.app.utils.security import decode_access_token # Added
+from .models.user import User # Added
+from .utils.security import decode_access_token # Added
 from fastapi.security import OAuth2PasswordBearer # Added
-from backend.app.scrapers.scraper_factory import get_scraper as scraper_factory_get_scraper # Import the actual get_scraper
+from .scrapers.scraper_factory import get_scraper as scraper_factory_get_scraper # Import the actual get_scraper
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/auth/login") # Added
 

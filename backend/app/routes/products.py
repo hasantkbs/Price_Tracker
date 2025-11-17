@@ -29,27 +29,38 @@ async def add_product(
             status_code=status.HTTP_400_BAD_REQUEST,
             detail="Could not scrape product information from the URL.",
         )
+    
+    # Ensure product_info is a plain dictionary
+    product_info_dict = dict(product_info)
 
     # Check if product already exists in the products table
     product = db.query(Product).filter(Product.product_url == product_data.product_url).first()
     if not product:
         # If product does not exist, create and add it
         product = Product(
-            name=product_info["name"],
-            price=product_info["price"],
-            image_url=product_info["image_url"],
-            product_url=product_info["product_url"],
-            site="Unknown" # Add logic to get site from URL
+            product_name=product_info_dict["name"],
+            current_price=product_info_dict["price"],
+            image_url=product_info_dict["image_url"],
+            product_url=product_info_dict["product_url"],
+            site_name="Unknown" # Add logic to get site from URL
         )
         db.add(product)
         db.commit()
         db.refresh(product)
+
+        # Add initial price to history
+        price_history = PriceHistory(
+            product_id=product.id,
+            price=product.current_price
+        )
+        db.add(price_history)
+        db.commit()
     else:
         # If product exists, update its info (optional, but good practice)
-        product.name = product_info["name"]
-        product.price = product_info["price"]
-        product.image_url = product_info["image_url"]
-        # product.site = "Unknown" # Update site if logic is added
+        product.product_name = product_info_dict["name"]
+        product.current_price = product_info_dict["price"]
+        product.image_url = product_info_dict["image_url"]
+        # product.site_name = "Unknown" # Update site if logic is added
         db.commit()
         db.refresh(product)
 
@@ -76,6 +87,26 @@ async def add_product(
 
     return {"message": "Product added successfully"}
 
+@router.get("/my_products", response_model=List[schemas.ProductListItem])
+async def get_my_products(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    user_products = db.query(UserProduct).filter(UserProduct.user_id == current_user.id).all()
+    
+    products_list = []
+    for user_product in user_products:
+        product = db.query(Product).filter(Product.id == user_product.product_id).first()
+        if product:
+            products_list.append(schemas.ProductListItem(
+                id=product.id,
+                product_name=product.product_name,
+                current_price=product.current_price,
+                image_url=product.image_url,
+                product_url=product.product_url,
+                site_name=product.site_name,
+                last_checked=product.last_checked,
+                target_price=user_product.target_price
+            ))
+    return products_list
+
 @router.get("/{product_id}", response_model=schemas.ProductDetail)
 async def get_product_details(product_id: int, db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
     product = db.query(Product).filter(Product.id == product_id).first()
@@ -92,43 +123,21 @@ async def get_product_details(product_id: int, db: Session = Depends(get_db), cu
 
     price_history_records = db.query(PriceHistory).filter(
         PriceHistory.product_id == product_id
-    ).order_by(PriceHistory.date).all() # Changed to PriceHistory.date
+    ).order_by(PriceHistory.checked_at).all()
 
     # Convert PriceHistory records to PriceHistoryEntry schema
     price_history_entries = [
-        schemas.PriceHistoryEntry(price=record.price, timestamp=record.date) # Changed to record.date
+        schemas.PriceHistoryEntry(price=record.price, checked_at=record.checked_at)
         for record in price_history_records
     ]
 
-    latest_price = product.price
-    if price_history_entries:
-        latest_price = price_history_entries[-1].price # Get the latest price from history
-
     return schemas.ProductDetail(
         id=product.id,
-        name=product.name,
-        price=latest_price, # Use the latest_price here
+        product_name=product.product_name,
+        current_price=product.current_price,
         image_url=product.image_url,
         product_url=product.product_url,
-        site=product.site,
+        site_name=product.site_name,
+        last_checked=product.last_checked,
         price_history=price_history_entries
     )
-
-@router.get("/my_products", response_model=List[schemas.ProductListItem])
-async def get_my_products(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
-    user_products = db.query(UserProduct).filter(UserProduct.user_id == current_user.id).all()
-    
-    products_list = []
-    for user_product in user_products:
-        product = db.query(Product).filter(Product.id == user_product.product_id).first()
-        if product:
-            products_list.append(schemas.ProductListItem(
-                id=product.id,
-                name=product.name,
-                price=product.price,
-                image_url=product.image_url,
-                product_url=product.product_url,
-                site=product.site,
-                target_price=user_product.target_price
-            ))
-    return products_list
