@@ -38,9 +38,9 @@ async def add_product(
     if not product:
         # If product does not exist, create and add it
         product = Product(
-            product_name=product_info_dict["name"],
-            current_price=product_info_dict["price"],
-            image_url=product_info_dict["image_url"],
+            product_name=product_info_dict.get("name") or "Unknown Product",
+            current_price=product_info_dict.get("price") or 0.0,
+            image_url=product_info_dict.get("image_url") or "no_image.jpg",
             product_url=product_info_dict["product_url"],
             site_name="Unknown" # Add logic to get site from URL
         )
@@ -57,9 +57,9 @@ async def add_product(
         db.commit()
     else:
         # If product exists, update its info (optional, but good practice)
-        product.product_name = product_info_dict["name"]
-        product.current_price = product_info_dict["price"]
-        product.image_url = product_info_dict["image_url"]
+        product.product_name = product_info_dict.get("name") or product.product_name
+        product.current_price = product_info_dict.get("price") or product.current_price
+        product.image_url = product_info_dict.get("image_url") or product.image_url
         # product.site_name = "Unknown" # Update site if logic is added
         db.commit()
         db.refresh(product)
