@@ -1,4 +1,5 @@
 import database
+import requests
 from bs4 import BeautifulSoup
 from playwright.sync_api import sync_playwright
 from price_utils import extract_price_from_text
@@ -28,30 +29,47 @@ def fetch_html(url: str) -> str:
     Sayfayı Playwright ile yükler, popupları kapatır ve biraz scroll ederek
     fiyatın DOM'a düşmesini sağlar.
     """
-    with sync_playwright() as p:
-        browser = p.chromium.launch(
-            headless=True,
-            args=[
-                "--disable-blink-features=AutomationControlled",
-                "--no-sandbox",
-                "--disable-dev-shm-usage",
-                "--window-size=1920,1080",
-            ],
+    # 1) Önce Playwright ile tam render etmeyi dene
+    try:
+        with sync_playwright() as p:
+            browser = p.chromium.launch(
+                headless=True,
+                args=[
+                    "--disable-blink-features=AutomationControlled",
+                    "--no-sandbox",
+                    "--disable-dev-shm-usage",
+                    "--window-size=1920,1080",
+                ],
+            )
+            page = browser.new_page()
+            page.set_default_timeout(15000)
+            page.goto(url, wait_until="networkidle")
+
+            # popup killer (arka planda)
+            close_popups(page)
+
+            # scroll → lazy load fiyatı yukarı taşır
+            page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
+            page.wait_for_timeout(1500)
+
+            html = page.content()
+            browser.close()
+            return html
+    except Exception:
+        # 2) Eğer Playwright yoksa veya browser açılamazsa (özellikle Streamlit Cloud gibi
+        # ortamlarda), basit bir requests + BeautifulSoup fallback'i kullan.
+        resp = requests.get(
+            url,
+            headers={
+                "User-Agent": (
+                    "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 "
+                    "(KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
+                )
+            },
+            timeout=15,
         )
-        page = browser.new_page()
-        page.set_default_timeout(15000)
-        page.goto(url, wait_until="networkidle")
-
-        # popup killer (arka planda)
-        close_popups(page)
-
-        # scroll → lazy load fiyatı yukarı taşır
-        page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
-        page.wait_for_timeout(1500)
-
-        html = page.content()
-        browser.close()
-        return html
+        resp.raise_for_status()
+        return resp.text
 
 
 def get_css_selector(element):
