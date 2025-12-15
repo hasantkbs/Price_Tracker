@@ -1,25 +1,40 @@
-# Price Tracker
+## Price Tracker
 
-A Python-based command-line application to track product prices from e-commerce websites.
+A Python-based backend + Streamlit frontend to track product prices from e‑commerce websites.
 
-## Description
+### Description
 
-This project provides a set of tools to monitor the price of a product from a given URL. It stores the product information, target price, and a specific CSS selector for the price element in a local SQLite database. A tracker script periodically checks the prices and notifies the user if the current price drops below the target price.
+This project monitors the price of products given their URLs.  
+It stores product information (URL, initial price, current price, target price, and a stable CSS selector for the price element) in a local SQLite database.  
+A tracker periodically loads the product pages (with Playwright), extracts the current price, updates the database, and marks products whose price fell below the target.
 
-The project uses `playwright` to handle dynamic, JavaScript-heavy websites and a user-guided calibration script (`app.py`) to accurately identify the price on the page.
+The project uses:
+- `playwright` to handle dynamic, JavaScript-heavy websites.
+- An automatic calibration routine (`calibrate.py`) to identify the correct price element on the page using the visible price you entered.
+- A small command-line menu (`app.py`) and a Streamlit web UI (`streamlit_app.py`) for normal users.
 
-## Features
+### Features
 
--   **User-Guided Price Calibration:** An interactive script (`app.py`) helps the user pinpoint the exact HTML element containing the price, ensuring high accuracy.
--   **Dynamic Content Handling:** Uses `playwright` to render JavaScript on web pages, allowing it to scrape prices from modern e-commerce sites.
--   **Persistent Tracking:** Stores products in an SQLite database for long-term tracking.
--   **Background Monitoring:** A separate script (`tracker.py`) runs in the background to continuously check for price updates.
+- **Automatic Price Calibration**:  
+  Users only provide the product URL and the visible price text (e.g. `229,99 TL`); the system automatically finds the correct HTML element and stores a stable CSS selector.
+- **Dynamic Content Handling**:  
+  Uses `playwright` (Chromium) to render JavaScript on web pages, handle cookie dialogs/popups, scroll, and wait until the price is present in the DOM.
+- **Persistent Tracking**:  
+  All products are stored in an SQLite database (`price_tracker.db`) for long‑term tracking.
+- **Price Checking Engine**:  
+  `tracker.py` can be used to periodically re-check all stored products and update their current prices.
+- **Streamlit Frontend**:  
+  `streamlit_app.py` exposes a web UI with:
+  - **“Add Product”** tab to add & calibrate a new product.
+  - **“Track & List”** tab to list tracked products and manually trigger a price check.
 
-## How to Use
+---
+
+## Local Usage
 
 ### 1. Setup
 
-First, install the required Python packages:
+Create / activate a virtual environment (optional but recommended) and install dependencies:
 
 ```bash
 pip install -r requirements.txt
@@ -31,30 +46,58 @@ Then, install the necessary browser binaries for Playwright:
 playwright install
 ```
 
-### 2. Add a Product to Track
+### 2. Run the Streamlit Web App
 
-Run the `app.py` script to add a new product. This script will guide you through the calibration process.
-
-```bash
-python3 app.py
-```
-
-You will be prompted for:
-- The product URL.
-- The exact price text as it appears on the page (e.g., "29,99 TL").
-- The correct CSS selector from a list of options.
-- Your target price.
-
-### 3. Start the Tracker
-
-To begin monitoring the prices of the products in your database, run the `tracker.py` script.
+From the project root:
 
 ```bash
-python3 tracker.py
+streamlit run streamlit_app.py
 ```
 
-The script will check for price updates periodically and print a message if a product's price falls to or below your target.
+The app will open in your browser. You can:
+- Add new products from the **“Add Product”** tab.
+- See and check all products from the **“Track & List”** tab.
+
+### 3. Command-Line Interface (Optional)
+
+If you prefer using the CLI instead of Streamlit:
+
+```bash
+python app.py
+```
+
+You will see a simple menu:
+- **1)** Add a new product (URL + visible price + target price)
+- **2)** Check prices once
+- **3)** Start continuous tracking loop
+- **4)** Exit
+
+You can still run the raw tracker loop directly:
+
+```bash
+python tracker.py
+```
+
+This will continuously check all tracked products every N minutes (configurable in `tracker.run_loop`).
+
+---
+
+## Deploying on Streamlit Cloud
+
+1. Push this project to a GitHub repository.  
+2. On Streamlit Cloud:
+   - Select the repository and branch.
+   - Set the **entry file** to `streamlit_app.py`.
+3. Make sure `requirements.txt` is detected and installed automatically.
+
+> Note: Playwright might require additional configuration on some hosting platforms (headless Chromium, sandbox flags, etc.).  
+> If you hit issues there, you can temporarily fall back to a `requests + BeautifulSoup`‑only version of the price fetching logic.
+
+---
 
 ## Limitations
 
-Currently, the script may be blocked by advanced anti-bot measures on some major e-commerce platforms (like Trendyol). Bypassing this level of protection is a complex challenge and may require more advanced techniques like proxy rotation or CAPTCHA solving services.
+- Some major e‑commerce platforms use advanced anti‑bot measures (e.g. aggressive bot detection, CAPTCHAs, strong WAF rules).  
+- In those cases, Playwright may be blocked, or the price may not be returned reliably.  
+- Bypassing such protection can require advanced techniques (proxy rotation, CAPTCHA solving services) which are **out of scope** for this simple demo project.
+

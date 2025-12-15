@@ -1,7 +1,7 @@
 import database
 from bs4 import BeautifulSoup
-from tracker import extract_price_from_text
 from playwright.sync_api import sync_playwright
+from price_utils import extract_price_from_text
 
 
 POPUP_SELECTORS = [
@@ -10,29 +10,33 @@ POPUP_SELECTORS = [
     "button:has-text('Tamam')",
     "button:has-text('X')",
     "[class*='close']",
-    "[class*='modal-close']"
+    "[class*='modal-close']",
 ]
 
 
 def close_popups(page):
+    """Sayfadaki klasik çerez / popup diyaloglarını kapatmaya çalışır."""
     for selector in POPUP_SELECTORS:
         try:
             page.locator(selector).click(timeout=1500)
-        except:
+        except Exception:
             pass
 
 
 def fetch_html(url: str) -> str:
-    """Trendyol gibi sitelerde popupları kapatarak fiyatın DOM'a düşmesini sağlar."""
+    """
+    Sayfayı Playwright ile yükler, popupları kapatır ve biraz scroll ederek
+    fiyatın DOM'a düşmesini sağlar.
+    """
     with sync_playwright() as p:
         browser = p.chromium.launch(
-            headless=True,  # kullanıcı pencere görmez
+            headless=True,
             args=[
                 "--disable-blink-features=AutomationControlled",
                 "--no-sandbox",
                 "--disable-dev-shm-usage",
-                "--window-size=1920,1080"
-            ]
+                "--window-size=1920,1080",
+            ],
         )
         page = browser.new_page()
         page.set_default_timeout(15000)
@@ -45,26 +49,7 @@ def fetch_html(url: str) -> str:
         page.evaluate("window.scrollTo(0, document.body.scrollHeight);")
         page.wait_for_timeout(1500)
 
-        # Trendyol fiyat class'ları
-        price_candidates = [
-            "span[class*='prc-dsc']",   # indirimli fiyat
-            "span[class*='prc-org']",   # indirimsiz fiyat
-            "span[class*='selling-price']",
-            "span[class*='product-price']"
-        ]
-
-        html = None
-        for selector in price_candidates:
-            try:
-                page.wait_for_selector(selector, timeout=8000)
-                html = page.content()
-                break
-            except:
-                pass
-
-        if html is None:
-            html = page.content()
-
+        html = page.content()
         browser.close()
         return html
 
@@ -73,14 +58,14 @@ def get_css_selector(element):
     """Bulunan element için stabil CSS selector üretir."""
     parts = []
     current = element
-    while current.parent and current.parent.name != '[document]':
+    while current.parent and current.parent.name != "[document]":
         selector = current.name
-        if current.has_attr('id'):
+        if current.has_attr("id"):
             selector = f"#{current['id']}"
             parts.insert(0, selector)
             break
-        if current.has_attr('class'):
-            classes = ".".join(current['class'])
+        if current.has_attr("class"):
+            classes = ".".join(current["class"])
             selector = f"{selector}.{classes}"
         siblings = current.find_previous_siblings(current.name)
         selector = f"{selector}:nth-of-type({len(siblings) + 1})"
@@ -89,35 +74,150 @@ def get_css_selector(element):
     return " > ".join(parts)
 
 
-def main():
-    database.setup_database()
+def _choose_best_element(candidates):
+    """
+    Birden fazla eşleşen element varsa, kullanıcıya sormadan en mantıklı olanı seç.
+    - <head>, <script>, <style> içindekileri geri plana at
+    - class'ında 'price' veya 'fiyat' geçenleri öne al
+    - Metin uzunluğu kısa olanları tercih et
+    """
+    def score(el):
+        score = 0
+        # Etiket adı
+        tag_name = el.name.lower() if el.name else ""
+        if tag_name in {"span", "strong", "b"}:
+            score += 3
+        if tag_name in {"div", "p"}:
+            score += 1
 
-    url = input("Takip edilecek ürün URL: ").strip()
-    price_text = input("Sayfada görünen tam fiyat: ").strip()
+        # Üst ataları kontrol et (head/script/style içinde mi?)
+        in_bad_parent = False
+        for parent in el.parents:
+            if parent.name in {"head", "script", "style", "noscript"}:
+                in_bad_parent = True
+                break
+        if in_bad_parent:
+            score -= 5
+
+        # class ismi
+        classes = " ".join(el.get("class", []))
+        cls_lower = classes.lower()
+        if "price" in cls_lower or "fiyat" in cls_lower:
+            score += 5
+        if "old-price" in cls_lower or "previous" in cls_lower:
+            # Eski fiyatları biraz geri plana it
+            score -= 1
+
+        # Metin uzunluğu
+        text = el.get_text(strip=True)
+        if text:
+            length = len(text)
+            # Çok uzun metinleri (uzun açıklama) biraz cezalandır
+            if length < 30:
+                score += 2
+            elif length > 80:
+                score -= 2
+        return score
+
+    best = max(candidates, key=score)
+    return best
+
+
+def calibrate_and_add_product(url: str, price_text: str, target_price: float):
+    """
+    Verilen URL ve fiyat metni ile sayfayı analiz eder, doğru fiyat elementini
+    otomatik bulur ve ürünü veritabanına ekler.
+
+    Streamlit gibi arayüzlerden çağrılabilmesi için input/print yerine
+    parametre ve exception kullanır.
+    """
+    url = url.strip()
+    price_text = price_text.strip()
+
+    if not url or not price_text:
+        raise ValueError("URL ve fiyat metni boş bırakılamaz.")
+
+    # Kullanıcının girdiği metinden sayısal fiyatı çıkar
+    target_price_value = extract_price_from_text(price_text)
+    if target_price_value is None:
+        raise ValueError(
+            "Girdiğiniz metinden fiyat çıkarılamadı. Lütfen sayıyı içeren bir metin girin."
+        )
 
     html = fetch_html(url)
     soup = BeautifulSoup(html, "html.parser")
 
-    matches = soup.find_all(string=lambda t: price_text in t)
+    # 1) Önce sınıfında 'price' veya 'price-wrapper' vb. geçen etiketleri tara
+    candidate_elements = []
+    for tag in soup.find_all(True, class_=True):
+        class_str = " ".join(tag.get("class", []))
+        if "price" in class_str.lower() or "fiyat" in class_str.lower():
+            candidate_elements.append(tag)
+
+    # 2) Eğer orada bulamazsak, genel tüm text node'larda ara (script/style hariç)
+    if not candidate_elements:
+        for text_node in soup.find_all(string=True):
+            parent = text_node.parent
+            if parent.name in {"script", "style", "noscript"}:
+                continue
+            candidate_elements.append(parent)
+
+    # Aynı sayısal fiyatı taşıyan elementleri filtrele
+    matches = []
+    for el in candidate_elements:
+        text = el.get_text(strip=True)
+        value = extract_price_from_text(text)
+        if value is not None and abs(value - target_price_value) < 0.001:
+            matches.append(el)
+
     if not matches:
-        print("\n❌ Fiyat metni DOM'da bulunamadı.")
-        print("Sebep: Kullanıcının girdiği fiyat sayfada birebir farklı olabilir.")
-        print("Yardım: İşaretle → kopyala yapıştır yöntemi ile fiyatı tekrar ekle.")
-        return
+        raise RuntimeError(
+            "Fiyat metni DOM'da bulunamadı. "
+            "Sayfada görünen fiyat ile girilen değer birebir uyuşmuyor olabilir."
+        )
 
-    selectors = [get_css_selector(el.parent) for el in matches]
-    print("\n📌 Fiyat konumu:")
-    for i, sel in enumerate(selectors, 1):
-        print(f"{i}. {sel}")
+    # Kullanıcıya HTML selector seçtirmek yerine, en iyi adayı otomatik seçiyoruz.
+    best_element = _choose_best_element(matches)
+    selector = get_css_selector(best_element)
 
-    index = int(input("\nDoğru olan numara: ")) - 1
-    selector = selectors[index]
+    # Verilen target_price string olabilir; burada float'a güvenli şekilde çevir.
+    if isinstance(target_price, str):
+        target_price = float(target_price.replace(",", "."))
 
-    target_price = float(input("Hedef fiyat: "))
-    initial_price = extract_price_from_text(price_text)
+    initial_price = target_price_value
 
     database.add_product(url, target_price, initial_price, selector)
-    print("\n🎉 Ürün başarıyla eklendi ve takip edilmeye başlandı.")
+
+    return {
+        "url": url,
+        "selector": selector,
+        "initial_price": initial_price,
+        "target_price": target_price,
+    }
+
+
+def main():
+    """
+    Komut satırı üzerinden kullanıcıdan bilgi alır ve kalibrasyon + ekleme yapar.
+    """
+    database.setup_database()
+
+    url = input("Takip edilecek ürün URL: ").strip()
+    price_text = input(
+        "Sayfada görünen tam fiyat (örn: 229,99 TL veya sadece 229,99): "
+    ).strip()
+    target_str = input("Hedef fiyat: ").strip()
+
+    try:
+        result = calibrate_and_add_product(url, price_text, target_str)
+        print("\n📌 Fiyat elementi otomatik olarak bulundu ve kaydedildi.")
+        print(f"URL: {result['url']}")
+        print(f"Selector: {result['selector']}")
+        print(f"İlk fiyat: {result['initial_price']}")
+        print(f"Hedef fiyat: {result['target_price']}")
+        print("\n🎉 Ürün başarıyla eklendi ve takip edilmeye başlandı.")
+    except Exception as exc:
+        print(f"\n❌ İşlem başarısız: {exc}")
 
 
 if __name__ == "__main__":
