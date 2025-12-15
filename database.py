@@ -8,18 +8,34 @@ def get_db_connection():
     return conn
 
 def add_selector_column_if_not_exists():
-    """Mevcut tabloya 'price_selector' kolonunu ekler (eğer yoksa)."""
+    """Ensure 'price_selector' column exists on products table."""
     conn = get_db_connection()
     cursor = conn.cursor()
     try:
         # Tablo bilgilerini al
         cursor.execute("PRAGMA table_info(products)")
         columns = [row['name'] for row in cursor.fetchall()]
-        # Kolon yoksa ekle
         if 'price_selector' not in columns:
             cursor.execute("ALTER TABLE products ADD COLUMN price_selector TEXT")
             conn.commit()
             print("Veritabanı şeması güncellendi: 'price_selector' kolonu eklendi.")
+    except Exception as e:
+        print(f"Veritabanı güncellenirken hata oluştu: {e}")
+    finally:
+        conn.close()
+
+
+def add_name_column_if_not_exists():
+    """Ensure 'name' (product name) column exists on products table."""
+    conn = get_db_connection()
+    cursor = conn.cursor()
+    try:
+        cursor.execute("PRAGMA table_info(products)")
+        columns = [row["name"] for row in cursor.fetchall()]
+        if "name" not in columns:
+            cursor.execute("ALTER TABLE products ADD COLUMN name TEXT")
+            conn.commit()
+            print("Veritabanı şeması güncellendi: 'name' kolonu eklendi.")
     except Exception as e:
         print(f"Veritabanı güncellenirken hata oluştu: {e}")
     finally:
@@ -33,6 +49,7 @@ def setup_database():
     CREATE TABLE IF NOT EXISTS products (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         url TEXT NOT NULL UNIQUE,
+        name TEXT,
         target_price REAL NOT NULL,
         current_price REAL,
         initial_price REAL,
@@ -43,18 +60,19 @@ def setup_database():
     """)
     conn.commit()
     conn.close()
-    
     # Veritabanı şemasını kontrol et ve gerekirse güncelle
     add_selector_column_if_not_exists()
+    add_name_column_if_not_exists()
     print("Veritabanı başarıyla kuruldu/güncellendi.")
 
-def add_product(url, target_price, initial_price, selector):
-    """Veritabanına yeni bir ürün ekler (seçici ile birlikte)."""
+def add_product(url, target_price, initial_price, selector, name=None):
+    """Insert a new product (with optional human-friendly name)."""
     conn = get_db_connection()
     try:
         conn.execute(
-            "INSERT INTO products (url, target_price, initial_price, current_price, price_selector) VALUES (?, ?, ?, ?, ?)",
-            (url, target_price, initial_price, initial_price, selector)
+            "INSERT INTO products (url, name, target_price, initial_price, current_price, price_selector) "
+            "VALUES (?, ?, ?, ?, ?, ?)",
+            (url, name, target_price, initial_price, initial_price, selector),
         )
         conn.commit()
         print(f"Ürün eklendi: {url}")

@@ -20,6 +20,10 @@ def page_add_product():
 
     with st.form("add_product_form"):
         url = st.text_input("Ürün URL")
+        name = st.text_input(
+            "Ürün adı",
+            placeholder="Örn: TriArte T-Shirt",
+        )
         visible_price = st.text_input(
             "Sayfada gördüğünüz fiyat",
             placeholder="Örn: 229,99 TL (kopyala-yapıştır da olur)",
@@ -34,9 +38,10 @@ def page_add_product():
     if submitted:
         init_db()
         try:
-            result = calibrate_and_add_product(url, visible_price, target_price)
+            result = calibrate_and_add_product(url, visible_price, target_price, name=name or None)
             st.success("Ürün başarıyla eklendi ve takip edilmeye başlandı.")
             with st.expander("Detaylar"):
+                st.write(f"Ad: {result.get('name') or '(isim verilmedi)'}")
                 st.write(f"URL: {result['url']}")
                 st.write(f"İlk fiyat: {result['initial_price']}")
                 st.write(f"Hedef fiyat: {result['target_price']}")
@@ -54,8 +59,22 @@ def page_list_and_check():
         st.info("Henüz takip edilen ürün yok. Önce 'Yeni Ürün Ekle' sekmesinden ürün ekleyin.")
         return
 
+    # Ürünleri isim odaklı bir tablo olarak göster
+    rows = []
+    for p in products:
+        rows.append(
+            {
+                "Ürün Adı": p.get("name") or "(isim yok)",
+                "URL": p["url"],
+                "İlk Fiyat": p["initial_price"],
+                "Hedef Fiyat": p["target_price"],
+                "Son Fiyat": p["current_price"],
+                "Son Kontrol": p["last_checked_at"],
+            }
+        )
+    st.table(rows)
+
     if st.button("Tüm ürünlerin fiyatlarını şimdi kontrol et"):
-        rows = []
         for p in products:
             url = p["url"]
             selector = p["price_selector"] if "price_selector" in p.keys() else None
@@ -67,35 +86,17 @@ def page_list_and_check():
                     if current_price <= p["target_price"]
                     else "Takipte"
                 )
+                st.success(
+                    f"{p.get('name') or p['url']} -> {current_price} (Hedef: {p['target_price']}) - {status}"
+                )
             except Exception as exc:
-                current_price = None
-                status = f"HATA: {exc}"
+                st.error(f"{p.get('name') or p['url']} için hata: {exc}")
 
-            rows.append(
-                {
-                    "URL": url,
-                    "İlk Fiyat": p["initial_price"],
-                    "Hedef Fiyat": p["target_price"],
-                    "Son Fiyat": current_price or "-",
-                    "Durum": status,
-                }
-            )
-
-        st.table(rows)
-    else:
-        # Sadece mevcut veriyi göster
-        rows = []
-        for p in products:
-            rows.append(
-                {
-                    "URL": p["url"],
-                    "İlk Fiyat": p["initial_price"],
-                    "Hedef Fiyat": p["target_price"],
-                    "Son Fiyat": p["current_price"],
-                    "Son Kontrol": p["last_checked_at"],
-                }
-            )
-        st.table(rows)
+    st.markdown("---")
+    st.subheader("Ürün linkleri")
+    for p in products:
+        label = p.get("name") or p["url"]
+        st.link_button(f"Ürüne git: {label}", p["url"])
 
 
 def main():

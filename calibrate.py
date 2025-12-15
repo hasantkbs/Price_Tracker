@@ -141,7 +141,7 @@ def _choose_best_element(candidates):
     return best
 
 
-def calibrate_and_add_product(url: str, price_text: str, target_price: float):
+def calibrate_and_add_product(url: str, price_text: str, target_price: float, name: str | None = None):
     """
     Verilen URL ve fiyat metni ile sayfayı analiz eder, doğru fiyat elementini
     otomatik bulur ve ürünü veritabanına ekler.
@@ -204,10 +204,11 @@ def calibrate_and_add_product(url: str, price_text: str, target_price: float):
 
     initial_price = target_price_value
 
-    database.add_product(url, target_price, initial_price, selector)
+    database.add_product(url, target_price, initial_price, selector, name=name)
 
     return {
         "url": url,
+        "name": name,
         "selector": selector,
         "initial_price": initial_price,
         "target_price": target_price,
@@ -221,13 +222,14 @@ def main():
     database.setup_database()
 
     url = input("Takip edilecek ürün URL: ").strip()
+    name = input("Ürün adı (opsiyonel, listede görünecek): ").strip() or None
     price_text = input(
         "Sayfada görünen tam fiyat (örn: 229,99 TL veya sadece 229,99): "
     ).strip()
     target_str = input("Hedef fiyat: ").strip()
 
     try:
-        result = calibrate_and_add_product(url, price_text, target_str)
+        result = calibrate_and_add_product(url, price_text, target_str, name=name)
         print("\n📌 Fiyat elementi otomatik olarak bulundu ve kaydedildi.")
         print(f"URL: {result['url']}")
         print(f"Selector: {result['selector']}")
