@@ -62,9 +62,10 @@ def page_list_and_check():
     # Ürünleri isim odaklı bir tablo olarak göster
     rows = []
     for p in products:
+        name = p["name"] if "name" in p.keys() and p["name"] else "(isim yok)"
         rows.append(
             {
-                "Ürün Adı": p.get("name") or "(isim yok)",
+                "Ürün Adı": name,
                 "URL": p["url"],
                 "İlk Fiyat": p["initial_price"],
                 "Hedef Fiyat": p["target_price"],
@@ -78,6 +79,7 @@ def page_list_and_check():
         for p in products:
             url = p["url"]
             selector = p["price_selector"] if "price_selector" in p.keys() else None
+            name = p["name"] if "name" in p.keys() and p["name"] else p["url"]
             try:
                 current_price = get_product_price(url, selector)
                 database.update_product_price(p["id"], current_price)
@@ -87,15 +89,15 @@ def page_list_and_check():
                     else "Takipte"
                 )
                 st.success(
-                    f"{p.get('name') or p['url']} -> {current_price} (Hedef: {p['target_price']}) - {status}"
+                    f"{name} -> {current_price} (Hedef: {p['target_price']}) - {status}"
                 )
             except Exception as exc:
-                st.error(f"{p.get('name') or p['url']} için hata: {exc}")
+                st.error(f"{name} için hata: {exc}")
 
     st.markdown("---")
     st.subheader("Ürün linkleri")
     for p in products:
-        label = p.get("name") or p["url"]
+        label = p["name"] if "name" in p.keys() and p["name"] else p["url"]
         st.link_button(f"Ürüne git: {label}", p["url"])
 
 
