@@ -1,0 +1,32 @@
+# docker-compose.dev.yml  — Geliştirme ortamı override'ı
+# Kullanım: docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+services:
+  api:
+    build:
+      target: runtime        # aynı Dockerfile, production target
+    environment:
+      DB_PATH: /app/data/price_tracker.db
+      PORT: "8001"
+    ports:
+      - "8001:8001"
+    volumes:
+      - db_data:/app/data
+      # Kaynak kod hot-reload için mount
+      - ./api.py:/app/api.py:ro
+      - ./calibrate.py:/app/calibrate.py:ro
+      - ./database.py:/app/database.py:ro
+      - ./tracker.py:/app/tracker.py:ro
+      - ./price_utils.py:/app/price_utils.py:ro
+    command: >
+      uvicorn api:app
+      --host 0.0.0.0
+      --port 8001
+      --reload
+      --log-level debug
+    # Geliştirmede kaynak limiti yok
+    deploy:
+      resources:
+        limits:
+          cpus: "2.0"
+          memory: 2G

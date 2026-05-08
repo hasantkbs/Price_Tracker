@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+*.egg-info/
+dist/
+build/
+*.egg
+
+# Virtual environments
+env/
+venv/
+.venv/
+
+# Local database (üretimde volume'dan gelir)
+price_tracker.db
+*.db-shm
+*.db-wal
+
+# Xcode / iOS App
+PriceTrackerApp/
+
+# Streamlit / eski app
+streamlit_app.py
+app.py
+
+# Ortam dosyaları
+.env
+.env.local
+
+# Test / geliştirme
+*.test.py
+tests/
+TODO.md
+
+# Git
+.git/
+.gitignore
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble

@@ -1,0 +1,189 @@
+{
+  "" : {
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTracker-primary.dia",
+    "emit-module-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTracker-primary-emit-module.d",
+    "emit-module-diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTracker-primary-emit-module.dia",
+    "pch" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTracker-primary-Bridging-header.pch",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTracker-primary.swiftdeps"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/ContentView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Models/Product.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/Product~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/PriceTrackerApp.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceTrackerApp~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Services/AdService.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AdService~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Services/LocalStorageService.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/LocalStorageService~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Services/NotificationService.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/NotificationService~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Services/PriceCheckService.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/PriceCheckService~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Services/WebScraperService.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/WebScraperService~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/ViewModels/ProductsViewModel.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsViewModel~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/ViewModels/SettingsViewModel.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsViewModel~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/AddProductView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/AddProductView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/BannerAdView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/BannerAdView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/EditProductView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/EditProductView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/ProductRowView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductRowView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/ProductsView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/ProductsView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/SettingsView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/Sources/PriceTracker/Views/SplashView.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/SplashView~partial.swiftmodule"
+  },
+  "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/hasantekbas/Downloads/Algorix Project Doc/Price_Tracker/PriceTrackerApp/build/PriceTracker.build/Debug-iphoneos/PriceTracker.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  }
+}

@@ -1,103 +1,132 @@
-## Price Tracker
+# Price Tracker
 
-A Python-based backend + Streamlit frontend to track product prices from e‑commerce websites.
+E-ticaret sitelerindeki ürün fiyatlarını takip eden, hedef fiyata düşünce iOS bildirimi gönderen uygulama.
 
-### Description
+## Mimari
 
-This project monitors the price of products given their URLs.  
-It stores product information (URL, initial price, current price, target price, and a stable CSS selector for the price element) in a local SQLite database.  
-A tracker periodically loads the product pages (with Playwright), extracts the current price, updates the database, and marks products whose price fell below the target.
+```
+┌─────────────────────────────────────────────────────────────┐
+│                        iOS App (SwiftUI)                    │
+│  Tab 1: Ürünler          │  Tab 2: Ayarlar                  │
+│  • Ürün listesi          │  • Premium / Ücretsiz            │
+│  • Fiyat geçmişi         │  • API adresi                    │
+│  • Alarm kurma           │                                  │
+│  • Reklamlı ürün ekleme  │                                  │
+└──────────────┬──────────────────────────────────────────────┘
+               │ REST (HTTP/JSON)
+               ▼
+┌─────────────────────────────────────────────────────────────┐
+│                  FastAPI Backend (api.py)                   │
+│  /products CRUD  │  /check  │  /history  │  /recalibrate   │
+└──────┬──────────────────────────────────────────────────────┘
+       │
+       ├── calibrate.py   CSS seçici tespiti & yeniden kalibrasyon
+       ├── tracker.py     6 katmanlı fiyat çekme motoru
+       ├── price_utils.py Fiyat metin ayrıştırıcı
+       └── database.py    SQLite (products + price_history)
+```
 
-The project uses:
-- `playwright` to handle dynamic, JavaScript-heavy websites.
-- An automatic calibration routine (`calibrate.py`) to identify the correct price element on the page using the visible price you entered.
-- A small command-line menu (`app.py`) and a Streamlit web UI (`streamlit_app.py`) for normal users.
+## Fiyat Çekme Stratejileri (Öncelik Sırası)
 
-### Features
+| # | Strateji | Açıklama |
+|---|---|---|
+| 1 | `json_ld` | `<script type="application/ld+json">` — en güvenilir |
+| 2 | `meta_tags` | `og:price:amount`, `product:price:amount` |
+| 3 | `microdata` | `itemprop="price"` |
+| 4 | `selector` | Kalibrasyon sırasında kaydedilen CSS seçici |
+| 5 | `class_search` | Class'ında "price/fiyat" geçen elementler |
+| 6 | `general` | Son çare: kısa text node taraması |
 
-- **Automatic Price Calibration**:  
-  Users only provide the product URL and the visible price text (e.g. `229,99 TL`); the system automatically finds the correct HTML element and stores a stable CSS selector.
-- **Dynamic Content Handling**:  
-  Uses `playwright` (Chromium) to render JavaScript on web pages, handle cookie dialogs/popups, scroll, and wait until the price is present in the DOM.
-- **Persistent Tracking**:  
-  All products are stored in an SQLite database (`price_tracker.db`) for long‑term tracking.
-- **Price Checking Engine**:  
-  `tracker.py` can be used to periodically re-check all stored products and update their current prices.
-- **Streamlit Frontend**:  
-  `streamlit_app.py` exposes a web UI with:
-  - **“Add Product”** tab to add & calibrate a new product.
-  - **“Track & List”** tab to list tracked products and manually trigger a price check.
+CSS seçici 3 kez başarısız olursa "stale" işaretlenir; diğer stratejiler devreye girer.
 
----
+## Dosya Yapısı
 
-## Local Usage
+```
+Price_Tracker/
+├── api.py                  FastAPI REST API (ana giriş noktası)
+├── calibrate.py            Sayfa analizi ve CSS seçici tespiti
+├── tracker.py              Çok katmanlı fiyat çekme motoru
+├── database.py             SQLite CRUD + price_history
+├── price_utils.py          Fiyat metin ayrıştırıcı
+├── requirements.txt        Python bağımlılıkları
+│
+├── Dockerfile              Üretim image (3 aşamalı, Playwright dahil)
+├── docker-compose.yml      Üretim servisleri
+├── docker-compose.dev.yml  Geliştirme (hot-reload)
+├── Caddyfile               HTTPS reverse proxy
+├── Makefile                Kısa yol komutları
+├── env.example             Ortam değişkeni şablonu
+│
+└── PriceTrackerApp/        iOS SwiftUI uygulaması
+    ├── project.yml         XcodeGen konfigürasyonu
+    └── Sources/PriceTracker/
+        ├── Models/
+        ├── Services/       APIService, AdService, NotificationService
+        ├── ViewModels/
+        └── Views/
+```
 
-### 1. Setup
+## API Endpoints
 
-Create / activate a virtual environment (optional but recommended) and install dependencies:
+| Method | Endpoint | Açıklama |
+|---|---|---|
+| GET | `/health` | Sağlık kontrolü |
+| GET | `/products` | Tüm ürünler |
+| POST | `/products` | Ürün ekle + kalibre et |
+| GET | `/products/{id}` | Tekil ürün |
+| PUT | `/products/{id}` | Güncelle (ad, hedef, alarm) |
+| DELETE | `/products/{id}` | Sil |
+| POST | `/products/{id}/check` | Anlık fiyat kontrolü |
+| POST | `/products/{id}/recalibrate` | CSS seçiciyi yenile |
+| GET | `/products/{id}/history` | Fiyat geçmişi |
+| POST | `/check-all` | Tüm ürünleri toplu kontrol |
+
+Swagger UI: `http://localhost:8001/docs`
+
+## Yerel Geliştirme
 
 ```bash
+# Bağımlılıkları kur
 pip install -r requirements.txt
+playwright install chromium
+
+# API'yi başlat
+uvicorn api:app --reload --port 8001
 ```
 
-Then, install the necessary browser binaries for Playwright:
+## Docker ile Üretim
 
 ```bash
-playwright install
+# .env dosyasını oluştur
+cp env.example .env
+
+# Build + başlat
+make deploy
+
+# HTTPS ile (Caddy)
+DOMAIN=api.siteadin.com make up-proxy
+
+# Yönetim
+make logs        # canlı loglar
+make shell       # container bash
+make db-backup   # SQLite yedeği
+make down        # durdur
 ```
 
-### 2. Run the Streamlit Web App
-
-From the project root:
+## iOS Uygulaması
 
 ```bash
-streamlit run streamlit_app.py
+cd PriceTrackerApp
+brew install xcodegen
+xcodegen generate
+open PriceTracker.xcodeproj
 ```
 
-The app will open in your browser. You can:
-- Add new products from the **“Add Product”** tab.
-- See and check all products from the **“Track & List”** tab.
+Ayarlar ekranından API adresini yapılandır: `http://<sunucu-ip>:8001`
 
-### 3. Command-Line Interface (Optional)
+## Notlar
 
-If you prefer using the CLI instead of Streamlit:
-
-```bash
-python app.py
-```
-
-You will see a simple menu:
-- **1)** Add a new product (URL + visible price + target price)
-- **2)** Check prices once
-- **3)** Start continuous tracking loop
-- **4)** Exit
-
-You can still run the raw tracker loop directly:
-
-```bash
-python tracker.py
-```
-
-This will continuously check all tracked products every N minutes (configurable in `tracker.run_loop`).
-
----
-
-## Deploying on Streamlit Cloud
-
-1. Push this project to a GitHub repository.  
-2. On Streamlit Cloud:
-   - Select the repository and branch.
-   - Set the **entry file** to `streamlit_app.py`.
-3. Make sure `requirements.txt` is detected and installed automatically.
-
-> Note: Playwright might require additional configuration on some hosting platforms (headless Chromium, sandbox flags, etc.).  
-> If you hit issues there, you can temporarily fall back to a `requests + BeautifulSoup`‑only version of the price fetching logic.
-
----
-
-## Limitations
-
-- Some major e‑commerce platforms use advanced anti‑bot measures (e.g. aggressive bot detection, CAPTCHAs, strong WAF rules).  
-- In those cases, Playwright may be blocked, or the price may not be returned reliably.  
-- Bypassing such protection can require advanced techniques (proxy rotation, CAPTCHA solving services) which are **out of scope** for this simple demo project.
-
+- Ücretsiz kullanımda ürün ekleme reklamlı (5 sn rewarded ad).
+- Premium üyeler reklamsız sınırsız ürün takip eder.
+- Gerçek AdMob entegrasyonu için `PriceTrackerApp/Sources/PriceTracker/Services/AdService.swift` dosyasını güncelle.
+- Gerçek StoreKit satın alma için `SettingsViewModel.swift` → `purchasePremium()` metodunu güncelle.

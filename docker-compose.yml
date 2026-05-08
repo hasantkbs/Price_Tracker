@@ -1,0 +1,82 @@
+services:
+
+  # ── Price Tracker API ───────────────────────────────────────────────────────
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: runtime
+    image: price-tracker-api:${IMAGE_TAG:-latest}
+    container_name: price-tracker-api
+    restart: unless-stopped
+
+    ports:
+      - "${API_PORT:-8001}:8001"
+
+    environment:
+      DB_PATH: /app/data/price_tracker.db
+      PORT: "8001"
+      HOST: "0.0.0.0"
+
+    volumes:
+      - db_data:/app/data
+
+    healthcheck:
+      test: ["CMD", "python", "-c",
+             "import urllib.request; urllib.request.urlopen('http://localhost:8001/health', timeout=10)"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 15s
+
+    # Resource limits — adjust for your VPS
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          memory: 256M
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "20m"
+        max-file: "5"
+
+  # ── Caddy reverse proxy (HTTPS + TLS otomatik) ─────────────────────────────
+  caddy:
+    image: caddy:2-alpine
+    container_name: price-tracker-caddy
+    restart: unless-stopped
+    profiles: ["proxy"]          # sadece: docker compose --profile proxy up
+
+    ports:
+      - "80:80"
+      - "443:443"
+
+    environment:
+      DOMAIN: ${DOMAIN:-localhost}
+
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+
+    depends_on:
+      api:
+        condition: service_healthy
+
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+volumes:
+  db_data:
+    driver: local
+  caddy_data:
+    driver: local
+  caddy_config:
+    driver: local
