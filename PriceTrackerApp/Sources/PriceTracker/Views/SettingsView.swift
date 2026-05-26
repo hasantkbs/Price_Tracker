@@ -51,7 +51,7 @@ struct SettingsView: View {
             HStack {
                 Text("Uygulama Versiyonu")
                 Spacer()
-                Text("2.0.0").foregroundColor(.secondary)
+                Text(Bundle.main.infoDictionary.flatMap { $0["CFBundleShortVersionString"] as? String } ?? "1.0.0").foregroundColor(.secondary)
             }
             HStack {
                 Text("Geliştirici")

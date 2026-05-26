@@ -30,9 +30,12 @@
 	<false/>
 
 	<!-- ─── Network – web scraping için arbitrary loads açık ─── -->
+	<!-- App Store Review notuna gerekçe ekleyin: kullanıcının girdiği e-ticaret URL'leri -->
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+		<key>NSAllowsLocalNetworking</key>
 		<true/>
 	</dict>
 

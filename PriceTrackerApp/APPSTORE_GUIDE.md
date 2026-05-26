@@ -1,320 +1,213 @@
-# App Store Yayımlama Rehberi — Fiyat Takibi
+# App Store Gönderim Rehberi — Price Tracker (Fiyat Takibi)
 
-Bu dosya, uygulamayı App Store'a göndermek için yapmanız gereken tüm adımları listeler.
-**Kodda eksik kalan tek şey: uygulama logosu ve tam adı.**
-
----
-
-## İçindekiler
-
-1. [Ön Koşullar](#1-ön-koşullar)
-2. [Uygulama Adı ve Bundle ID](#2-uygulama-adı-ve-bundle-id)
-3. [Uygulama Logosu](#3-uygulama-logosu)
-4. [AdMob Kurulumu](#4-admob-kurulumu)
-5. [In-App Purchase (Premium)](#5-in-app-purchase-premium)
-6. [Signing & Capabilities](#6-signing--capabilities)
-7. [App Store Connect — Uygulama Kaydı](#7-app-store-connect--uygulama-kaydı)
-8. [Ekran Görüntüleri](#8-ekran-görüntüleri)
-9. [Build, Archive & Submit](#9-build-archive--submit)
-10. [İnceleme Notları](#10-i̇nceleme-notları)
+## Proje Referansı
+- Bundle ID: `com.algorix.pricetracker`
+- Display Name: `Fiyat Takibi`
+- iOS Deployment Target: 16.0
+- Marketing Version: 1.0.0 (Build 1)
 
 ---
 
-## 1. Ön Koşullar
+## KRİTİK — Gönderim Öncesi Yapılması Zorunlu
 
-| Gereksinim | Nereden | Ücret |
-|---|---|---|
-| Apple Developer Program | developer.apple.com/programs | $99/yıl |
-| AdMob hesabı | admob.google.com | Ücretsiz |
-| Uygulama ikonu | Kendiniz tasarlayın (1024×1024 PNG) | — |
-| Gizlilik Politikası URL | Bir URL oluşturun (zorunlu) | — |
+### 1. Gerçek AdMob ID'leri Girin
 
----
-
-## 2. Uygulama Adı ve Bundle ID
-
-### Xcode'da değiştirin:
-
-1. `PriceTrackerApp/project.yml` dosyasını açın
-2. Aşağıdaki satırları güncelleyin:
-
-```yaml
-settings:
-  base:
-    PRODUCT_DISPLAY_NAME: "Uygulamanızın Adı"        # görünen isim
-    PRODUCT_BUNDLE_IDENTIFIER: com.SIRKETINIZ.UYGULAMANIZ  # eşsiz olmalı
-```
-
-3. Sonra projeyi yeniden oluşturun:
-
-```bash
-cd PriceTrackerApp
-xcodegen generate
-```
-
-### App Store Connect'te kontrol edin:
-Bundle ID'nin **developer.apple.com/account → Identifiers** bölümünde
-kayıtlı olduğundan emin olun.
-
----
-
-## 3. Uygulama Logosu
-
-### Gereksinimler:
-- **Boyut:** 1024 × 1024 piksel, PNG formatı
-- **Alfa kanalı yok** (şeffaf arka plan kabul edilmez)
-- **Köşe yuvarlama yok** (iOS otomatik uygular)
-
-### Nasıl eklenir:
-
-1. `PriceTrackerApp/Resources/Assets.xcassets/AppIcon.appiconset/` klasörüne gidin
-2. Logonuzu `AppIcon.png` adıyla bu klasöre kopyalayın
-3. `Contents.json` dosyasını şu içerikle güncelleyin:
-
-```json
-{
-  "images": [
-    {
-      "filename": "AppIcon.png",
-      "idiom": "universal",
-      "platform": "ios",
-      "size": "1024x1024"
-    }
-  ],
-  "info": {
-    "author": "xcode",
-    "version": 1
-  }
-}
-```
-
-4. Xcode otomatik olarak diğer boyutları üretir.
-
----
-
-## 4. AdMob Kurulumu
-
-### 4.1 AdMob Hesabı Oluşturun
-
-1. [admob.google.com](https://admob.google.com) adresine gidin
-2. Google hesabınızla giriş yapın
-3. "Uygulama Ekle" → iOS → Mevcut uygulama yok (henüz yayımlanmadı)
-4. Uygulama adını girin → **App ID** alın (`ca-app-pub-XXXXXXXX~XXXXXXXXXX`)
-
-### 4.2 Rewarded Ad Birimi Oluşturun
-
-1. AdMob panelinde uygulamanızı seçin
-2. "Reklam Birimleri" → "Ekle" → **Ödüllü (Rewarded)**
-3. Ad birimini oluşturun → **Ad Unit ID** alın (`ca-app-pub-XXXXXXXX/XXXXXXXXXX`)
-
-### 4.3 Xcode'da Yapılandırın
-
-`project.yml` içinde `Release` konfigürasyonunu güncelleyin:
+**Dosya:** `project.yml` — Release konfigürasyonu
 
 ```yaml
 configs:
-  Debug:
-    GAD_APP_ID: ca-app-pub-3940256099942544~1458002511        # Google test ID (değiştirme)
-    GAD_REWARDED_UNIT_ID: ca-app-pub-3940256099942544/1712485313  # Google test ID (değiştirme)
   Release:
-    GAD_APP_ID: "ca-app-pub-XXXXXXXX~XXXXXXXXXX"             # Kendi App ID'niz
-    GAD_REWARDED_UNIT_ID: "ca-app-pub-XXXXXXXX/XXXXXXXXXX"   # Kendi Ad Unit ID'niz
+    GAD_APP_ID: "ca-app-pub-XXXXXXXX~XXXXXXXXXX"      # ← gerçek App ID
+    GAD_REWARDED_UNIT_ID: "ca-app-pub-XXXXXXXX/XXXXX"  # ← gerçek Rewarded Unit ID
 ```
 
-Ardından:
-```bash
-xcodegen generate
+**Dosya:** `Sources/PriceTracker/Services/AdService.swift` (satır 23-29)
+
+```swift
+enum AdUnitID {
+    static let banner       = "ca-app-pub-XXXXXXXX/XXXXX"  // Gerçek Banner ID
+    static let rewarded     = "ca-app-pub-XXXXXXXX/XXXXX"  // Gerçek Rewarded ID
+    static let interstitial = "ca-app-pub-XXXXXXXX/XXXXX"  // Gerçek Interstitial ID
+}
 ```
 
----
+AdMob hesabında:
+1. App Store'a yükleyeceğiniz bundle ID (`com.algorix.pricetracker`) ile yeni uygulama oluşturun
+2. Üç reklam birimi (Banner, Rewarded, Interstitial) tanımlayın
+3. ID'leri yukarıdaki yerlere yazın
 
-## 5. In-App Purchase (Premium)
+### 2. App Tracking Transparency (ATT) Entegrasyonu
 
-### 5.1 App Store Connect'te IAP Oluşturun
+AdMob reklamları IDFA kullanıyorsa ATT zorunludur.
 
-1. [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → Uygulamanız
-2. "Para Kazanma" → "Uygulama İçi Satın Alma" → "+"
-3. **Tür:** Non-Consumable (Tüketilemeyen)
-4. **Ürün Kimliği:** `com.algorix.pricetracker.premium` (veya kendi bundle ID'nize uygun)
-5. Fiyatı ve lokalizasyonu doldurun
-6. Durum: **Onay için Hazır**
+**Info.plist'e ekleyin:**
+```xml
+<key>NSUserTrackingUsageDescription</key>
+<string>Reklamları size özel gösterebilmek için cihaz tanımlayıcınızı kullanmak istiyoruz.</string>
+```
 
-### 5.2 Ürün Kimliğini Güncelleyin
+**PrivacyInfo.xcprivacy'de düzeltin:**
+```xml
+<key>NSPrivacyTracking</key>
+<true/>  <!-- false iken true yapın -->
+```
 
-`project.yml` içinde:
+**PriceTrackerApp.swift'e ATT izin çağrısı ekleyin:**
+```swift
+import AppTrackingTransparency
+
+// App aktif olduğunda (scenePhase .active içinde):
+ATTrackingManager.requestTrackingAuthorization { _ in }
+```
+
+### 3. NSAllowsArbitraryLoads — ATS İstisnası
+
+Web scraping kullanıcının girdiği herhangi bir e-ticaret URL'sine bağlanmak zorunda olduğu için `NSAllowsArbitraryLoads: true` olarak ayarlanmıştır.
+
+Apple Review'a gönderim notlarında mutlaka aşağıdaki gerekçeyi belirtin:
+
+> "Uygulama, kullanıcının eklediği e-ticaret URL'lerinden fiyat bilgisi çekmektedir. Bu sitelerin çoğu HTTPS yanında HTTP de sunmaktadır ve hangi domain'in ekleneceği önceden bilinemediğinden NSAllowsArbitraryLoads açılmıştır. Kullanıcı gizliliği açısından herhangi bir özel veri aktarılmamaktadır."
+
+Her iki dosyada da doğru ayar:
+
+**Info.plist:**
+```xml
+<key>NSAppTransportSecurity</key>
+<dict>
+    <key>NSAllowsArbitraryLoads</key>
+    <true/>
+    <key>NSAllowsLocalNetworking</key>
+    <true/>
+</dict>
+```
+
+**project.yml:**
 ```yaml
-settings:
-  base:
-    IAP_PREMIUM_PRODUCT_ID: com.SIRKETINIZ.UYGULAMANIZ.premium
+NSAppTransportSecurity:
+  NSAllowsArbitraryLoads: true
+  NSAllowsLocalNetworking: true
 ```
 
----
+### 4. In-App Purchase (Premium) — Eksik
 
-## 6. Signing & Capabilities
+`project.yml` içinde premium IAP ürün kimliği tanımlı:
+- `IAP_PREMIUM_PRODUCT_ID: com.algorix.pricetracker.premium`
 
-### 6.1 Xcode'da İmzalama
+Ancak `SettingsViewModel.swift` içinde StoreKit satın alma kodu **hiç implemente edilmemiş**.
 
-1. Xcode'da projeyi açın (`PriceTracker.xcodeproj`)
-2. Sol panelde `PriceTracker` hedefini seçin
-3. **Signing & Capabilities** sekmesi:
-   - "Automatically manage signing" işaretleyin
-   - **Team:** Apple Developer hesabınızı seçin
-   - **Bundle Identifier:** doğru olduğunu kontrol edin
+**Yapılması gerekenler:**
+1. StoreKit (StoreKit 2) ile `Product` sorgulama ve satın alma akışı ekleyin
+2. `SettingsView.swift` içinde "Premium'a Yükselt" butonu ekleyin
+3. App Store Connect'te `com.algorix.pricetracker.premium` ürününü oluşturun
+4. Test ortamında sandbox tester ile doğrulayın
 
-### 6.2 Push Notifications Capability
+### 5. Version Numarası Çelişkisi
 
-1. "+ Capability" butonuna tıklayın
-2. **Push Notifications** ekleyin
-
-> Not: Uygulamamız lokal bildirim kullanıyor. Push gerekmez ama ilerisi için eklenmesi önerilir. Lokale geçmek isterseniz bu adımı atlayabilirsiniz.
-
-### 6.3 In-App Purchase Capability
-
-1. "+ Capability" butonuna tıklayın
-2. **In-App Purchase** ekleyin
-
----
-
-## 7. App Store Connect — Uygulama Kaydı
-
-1. [appstoreconnect.apple.com](https://appstoreconnect.apple.com) → "Uygulamalarım" → "+"
-2. **Platform:** iOS
-3. **Ad:** Uygulamanızın App Store'da görünecek adı (maks. 30 karakter)
-4. **Birincil Dil:** Türkçe
-5. **Bundle ID:** Dropdown'dan seçin
-6. **SKU:** `pricetracker-001` (dahili, kullanıcı görmez)
-
-### Zorunlu Bilgiler:
-
-| Alan | Öneri |
+| Yer | Değer |
 |---|---|
-| Açıklama | Fiyat düşüşü takibi, bildirim, premium |
-| Anahtar Kelimeler | fiyat takip, indirim alarm, alışveriş |
-| Destek URL | Kendi web siteniz veya GitHub |
-| Gizlilik Politikası URL | **Zorunlu** — hazırlamanız gerekiyor |
-| Kategorie | Alışveriş |
-| Yaş Derecelendirmesi | 4+ |
+| `project.yml` `MARKETING_VERSION` | `1.0.0` |
+| `SettingsView.swift:54` (hardcoded) | `2.0.0` |
 
-### Gizlilik Politikası (Zorunlu):
-
-En az şunları içermeli:
-- Hangi veri toplanıyor: **"Hiçbir kişisel veri toplanmaz"**
-- Reklam: **"Google AdMob üçüncül taraf reklamları gösterebilir"**
-- İletişim e-postası
-
-[Ücretsiz gizlilik politikası oluşturucu](https://www.privacypolicygenerator.info)
+**Düzeltme:** `SettingsView.swift` satır 54'teki sabit `"2.0.0"` değerini dinamik hale getirin:
+```swift
+Text(Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String ?? "1.0.0")
+```
 
 ---
 
-## 8. Ekran Görüntüleri
+## YÜKSEK ÖNCELİKLİ
 
-### Zorunlu Boyutlar:
+### 6. AppLogo — 2x ve 3x Görselleri Eksik
 
-| Cihaz | Boyut | Miktar |
-|---|---|---|
-| iPhone 6.9" (iPhone 16 Pro Max) | 1320 × 2868 px | En az 1 |
-| iPhone 6.5" (iPhone 14 Plus) | 1284 × 2778 px | En az 1 |
-| iPad Pro 12.9" (3. nesil+) | 2048 × 2732 px | En az 1 (iPad desteği varsa) |
+`Assets.xcassets/AppLogo.imageset/` içinde **sadece 1x** boyutunda `AppLogo.png` var.
+`Contents.json` 2x ve 3x girişleri içeriyor ancak dosyalar yok.
 
-### Simulator'da ekran görüntüsü almak için:
+- 2x: 200x200px (veya orijinal boyutun 2 katı)
+- 3x: 300x300px (veya orijinal boyutun 3 katı)
 
-```bash
-# Simulator çalışırken:
-xcrun simctl io booted screenshot screenshot_001.png
-```
+SplashView'de kullanıldığı için Retina ekranlarda bulanık görünecektir.
 
-Veya Simulator'da **File → Save Screen** (Cmd+S).
+### 7. Background Modes Gerekçesi
 
-### Önerilen ekranlar:
-1. Ürün listesi (fiyat değişim yüzdeli)
-2. Ürün ekleme akışı
-3. Fiyat geçmişi sayfası
-4. Ayarlar — Premium karşılaştırma
-5. Fiyat alarm bildirimi (mock)
+Info.plist'te `UIBackgroundModes` → `fetch` ve `processing` tanımlı.
 
----
+Review notlarında gerekçe olarak belirtin:
+> "Arka planda periyodik fiyat kontrolü yaparak kullanıcıya hedef fiyat düştüğünde bildirim göndermek için `fetch` ve `processing` background modları kullanılmaktadır. Kullanıcı tarafından ayarlanabilir kontrol aralığı (1-24 saat) ile BGTaskScheduler üzerinden çalışır."
 
-## 9. Build, Archive & Submit
+### 8. Web Scraping — 4.2.5 Uyumluluğu
 
-### 9.1 Son Kontroller
+App Store Guideline 4.2.5: "Scraping/clipping apps must add significant value."
 
-```bash
-cd PriceTrackerApp
-xcodegen generate   # project.yml'den projeyi yenile
-```
+Bu uygulama:
+- Çok katmanlı fiyat çekme motoru (JSON-LD, meta, microdata, HTML pattern)
+- Hedef fiyat alarmı ile bildirim
+- Fiyat geçmişi takibi
+- CSS seçici kalibrasyonu
 
-Xcode'da:
-- Scheme: **PriceTracker**
-- Destination: **Any iOS Device (arm64)**
+Review notlarında bu katma değer vurgulanmalıdır.
 
-### 9.2 Archive
+### 9. Test Bilgileri (Reviewer'a)
 
-1. Xcode menü: **Product → Archive**
-2. Build tamamlanana kadar bekleyin (~5-10 dk ilk seferinde)
-3. **Organizer** penceresi otomatik açılır
-
-### 9.3 Validate
-
-1. Organizer'da archive'ı seçin → **Validate App**
-2. Tüm uyarıları ve hataları giderin
-3. Özellikle kontrol edin:
-   - `NSAllowsArbitraryLoads` uyarısı (project.yml'de kapatıldı ✓)
-   - Missing icons hatası (logonuzu ekleyin ✓)
-   - Provisioning profile hatası (Team seçili olmalı ✓)
-
-### 9.4 Upload
-
-1. **Distribute App** → **App Store Connect** → **Upload**
-2. Seçenekler: Strip Swift symbols ✓ | Upload symbols ✓
-3. Upload tamamlanınca App Store Connect'te **TestFlight** altında görünür
-
-### 9.5 App Store Connect'te Yayımla
-
-1. **TestFlight** → Internal Testing ile kendi cihazınızda test edin
-2. Hazırsa **App Store** → "Submit for Review" → İncelemeye gönderin
-3. Apple inceleme süresi: genellikle 1-3 iş günü
+App Store Review notlarına aşağıdaki test talimatlarını ekleyin:
+1. Uygulama açılır → Splash ekranı gösterilir → Ürün listesi (boş) görünür
+2. Sağ üstteki `+` butonuna basın
+3. Bir e-ticaret URL'si girin (örn. https://www.trendyol.com/...)
+4. "Fiyatı Otomatik Çek" butonuna tıklayın
+5. Fiyat çekilir, hedef fiyat girin, kaydedin
+6. Ürün listesinde göründüğünü doğrulayın
+7. Ayarlar → Bildirim toggle'ı çalışır
+8. Premium satın alma (implementasyon tamamlandıysa)
 
 ---
 
-## 10. İnceleme Notları
+## ORTA ÖNCELİKLİ
 
-Apple inceleme sırasında sorabileceği konular ve cevapları:
+### 10. SKAdNetwork Listesi Güncellemesi
 
-### "NSAllowsLocalNetworking neden açık?"
-> "Uygulama, kullanıcının kendi VPS'inde kurduğu backend servise bağlanmaktadır. Bu bağlantı yerel ağ üzerinden yapılabilir."
+Info.plist'te 15 SKAdNetwork ID'si tanımlı. Google'ın güncel listesini https://developers.google.com/admob/ios/ios14 adresinden kontrol edip eksikleri ekleyin.
 
-### "Reklamlı model açıklaması"
-> "Ücretsiz kullanıcılar, ürün eklemek için kısa bir ödüllü reklam izler. Premium kullanıcılar reklamsız sınırsız ürün ekleyebilir."
+### 11. Entitlements Dosyası
 
-### "Kullanıcı hesabı olmadan premium satın alma"
-> "Uygulama, Apple kimliği üzerinden otomatik olarak satın alma durumunu doğrular (StoreKit 2 Transaction.currentEntitlements)."
+`PriceTracker.entitlements` dosyası boş (`<dict/>`). Uygulamanın ihtiyacı yoksa sorun değil, ancak ileride push notification, iCloud vb. eklenirse güncellenmelidir.
 
-### Demo hesap gerekmez
-Uygulamada giriş sistemi yoktur. İncelemeci herhangi bir cihazda test edebilir.
+### 12. App Store Connect Metadata (Kod Dışı)
+
+Aşağıdaki öğeler App Store Connect'te manuel girilir, kodda bulunmaz:
+
+| Öğe | Değer (öneri) |
+|---|---|
+| Açıklama | "E-ticaret sitelerindeki ürün fiyatlarını takip edin, hedef fiyata düşünce anında bildirim alın." |
+| Anahtar Kelimeler | fiyat takip, price tracker, indirim, alarm, e-ticaret |
+| Destek URL | https://algorix.com.tr |
+| Pazarlama URL | https://algorix.com.tr/pricetracker |
+| Gizlilik Politikası URL | https://algorix.com.tr/privacy |
+| Yasal Şartlar URL | https://algorix.com.tr/terms |
+| İletişim | Geliştirici adı: Algorix |
+
+### 13. Ekran Görüntüleri (Screenshot) Boyutları
+
+App Store Connect için gerekli screenshot boyutları:
+- 6.7" iPhone: 1290x2796 (iPhone 14 Pro Max)
+- 6.5" iPhone: 1242x2688 (iPhone 11 Pro Max)
+- 5.5" iPhone: 1242x2208 (iPhone 8 Plus)
+- 12.9" iPad: 2048x2732 (iPad Pro)
 
 ---
 
-## Özet Kontrol Listesi
+## GÖNDERİM ÖNCESİ KONTROL LİSTESİ
 
-```
-[ ] Apple Developer hesabı aktif ($99/yıl)
-[ ] Bundle ID kayıtlı (developer.apple.com)
-[ ] Uygulama adı belirlendi
-[ ] Logo hazır (1024×1024 PNG, alfa yok)
-[ ] AdMob hesabı oluşturuldu
-[ ] AdMob App ID project.yml'e girildi (Release)
-[ ] AdMob Rewarded Ad Unit ID girildi (Release)
-[ ] IAP ürünü App Store Connect'te oluşturuldu
-[ ] IAP ürün kimliği project.yml'de doğru
-[ ] Gizlilik politikası URL hazır
-[ ] Ekran görüntüleri hazır (en az 1320×2868)
-[ ] Signing → Team seçili
-[ ] Push Notifications capability eklendi
-[ ] In-App Purchase capability eklendi
-[ ] xcodegen generate çalıştırıldı
-[ ] Archive → Validate → hata yok
-[ ] Upload tamamlandı
-[ ] App Store Connect metadata eksiksiz
-[ ] TestFlight'ta test edildi
-[ ] İncelemeye gönderildi
-```
+- [ ] **AdMob** — Gerçek App ID ve Ad Unit ID'ler girildi
+- [ ] **ATT** — `NSUserTrackingUsageDescription` eklendi; `ATTrackingManager.requestTrackingAuthorization` çağrılıyor
+- [ ] **Privacy Manifest** — `NSPrivacyTracking: true` (AdMob IDFA kullanıyorsa)
+- [ ] **ATS** — `NSAllowsArbitraryLoads: false` (proje ayarı doğru); Review notuna gerekçe yazıldı
+- [ ] **IAP** — StoreKit implementasyonu tamam; App Store Connect'te ürün oluşturuldu
+- [ ] **Version** — SettingsView'de dynamic version kullanılıyor, marketing version 1.0.0
+- [ ] **AppLogo** — 2x ve 3x görseller eklendi
+- [ ] **Background Modes** — Review notunda gerekçe belirtildi
+- [ ] **SKAdNetwork** — Güncel liste kullanılıyor
+- [ ] **Test URL** — Geçerli bir e-ticaret URL'si ile test edildi
+- [ ] **Screenshots** — Tüm gerekli boyutlarda ekran görüntüleri yüklendi
+- [ ] **Privacy Policy** — Settings'te link çalışıyor; App Store Connect'te URL girildi
+- [ ] **Terms of Service** — Settings'te link çalışıyor; App Store Connect'te URL girildi
+- [ ] **Review Notes** — Test talimatları ve scraping gerekçesi eklendi
+- [ ] **Build** — `xcodegen generate` çalışıyor; Xcode'da arşiv alınabiliyor

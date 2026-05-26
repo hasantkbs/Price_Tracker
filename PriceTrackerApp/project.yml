@@ -35,9 +35,9 @@ targets:
         NSUserNotificationsUsageDescription: "Takip ettiğiniz ürünlerin fiyatı düştüğünde bildirim almak için izin gerekiyor."
         NSLocalNetworkUsageDescription: "Yerel ağdaki fiyat takip sunucusuna bağlanmak için kullanılır."
 
-        # ── Ağ güvenliği (production: sadece HTTPS, localhost hariç) ─────────
+        # ── Ağ güvenliği — web scraping kullanıcının girdiği her URL'ye bağlanır ───
         NSAppTransportSecurity:
-          NSAllowsArbitraryLoads: false
+          NSAllowsArbitraryLoads: true
           NSAllowsLocalNetworking: true
 
         # ── Başlatma ekranı ───────────────────────────────────────────────────
