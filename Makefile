@@ -1,6 +1,6 @@
 COMPOSE      = docker compose
 COMPOSE_DEV  = $(COMPOSE) -f docker-compose.yml -f docker-compose.dev.yml
-IMAGE        = price-tracker-api
+IMAGE        = tagtrack-api
 TAG         ?= latest
 
 .PHONY: help build build-no-cache up down restart logs shell \
@@ -9,7 +9,7 @@ TAG         ?= latest
 # ── Varsayılan hedef ─────────────────────────────────────────────────────────
 help:
 	@echo ""
-	@echo "  Price Tracker — Docker komutları"
+	@echo "  TagTrack — Docker komutları"
 	@echo ""
 	@echo "  Üretim:"
 	@echo "    make build         Image'ı oluştur"
@@ -80,7 +80,7 @@ dev-down:
 db-backup:
 	@STAMP=$$(date +%Y%m%d_%H%M%S); \
 	$(COMPOSE) exec api sh -c \
-	  "sqlite3 /app/data/price_tracker.db '.backup /tmp/backup.db'" && \
+	  "sqlite3 /app/data/tagtrack.db '.backup /tmp/backup.db'" && \
 	$(COMPOSE) cp api:/tmp/backup.db ./backup_$$STAMP.db && \
 	echo "  Yedek oluşturuldu: backup_$$STAMP.db"
 
@@ -88,6 +88,6 @@ db-restore:
 	@if [ -z "$(F)" ]; then echo "Kullanım: make db-restore F=yedek.db"; exit 1; fi
 	$(COMPOSE) cp $(F) api:/tmp/restore.db
 	$(COMPOSE) exec api sh -c \
-	  "cp /app/data/price_tracker.db /app/data/price_tracker.db.bak && \
-	   sqlite3 /app/data/price_tracker.db '.restore /tmp/restore.db'"
-	@echo "  Geri yükleme tamamlandı. Eski DB: price_tracker.db.bak"
+	  "cp /app/data/tagtrack.db /app/data/tagtrack.db.bak && \
+	   sqlite3 /app/data/tagtrack.db '.restore /tmp/restore.db'"
+	@echo "  Geri yükleme tamamlandı. Eski DB: tagtrack.db.bak"

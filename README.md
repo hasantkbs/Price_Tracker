@@ -1,4 +1,4 @@
-# Price Tracker
+# TagTrack
 
 E-ticaret sitelerindeki ürün fiyatlarını takip eden, hedef fiyata düşünce iOS bildirimi gönderen uygulama.
 
@@ -119,7 +119,7 @@ make down        # durdur
 cd PriceTrackerApp
 brew install xcodegen
 xcodegen generate
-open PriceTracker.xcodeproj
+open TagTrack.xcodeproj
 ```
 
 Ayarlar ekranından API adresini yapılandır: `http://<sunucu-ip>:8001`
@@ -128,5 +128,5 @@ Ayarlar ekranından API adresini yapılandır: `http://<sunucu-ip>:8001`
 
 - Ücretsiz kullanımda ürün ekleme reklamlı (5 sn rewarded ad).
 - Premium üyeler reklamsız sınırsız ürün takip eder.
-- Gerçek AdMob entegrasyonu için `PriceTrackerApp/Sources/PriceTracker/Services/AdService.swift` dosyasını güncelle.
+- Gerçek AdMob entegrasyonu için `TagTrackApp/Sources/TagTrack/Services/AdService.swift` dosyasını güncelle.
 - Gerçek StoreKit satın alma için `SettingsViewModel.swift` → `purchasePremium()` metodunu güncelle.

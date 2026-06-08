@@ -15,12 +15,12 @@ venv/
 .venv/
 
 # Local database (üretimde volume'dan gelir)
-price_tracker.db
+tagtrack.db
 *.db-shm
 *.db-wal
 
 # Xcode / iOS App
-PriceTrackerApp/
+TagTrackApp/
 
 # Streamlit / eski app
 streamlit_app.py

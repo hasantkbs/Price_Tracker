@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- ─── Kullanıcı Tercihleri (UserDefaults) ─── -->
+    <key>NSPrivacyAccessedAPITypes</key>
+    <array>
+        <dict>
+            <key>NSPrivacyAccessedAPIType</key>
+            <string>NSPrivacyAccessedAPICategoryUserDefaults</string>
+            <key>NSPrivacyAccessedAPITypeReasons</key>
+            <array>
+                <string>CA92.1</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- ─── Toplanan Veriler ─── -->
+    <key>NSPrivacyCollectedDataTypes</key>
+    <array>
+        <!-- Reklam verileri (AdMob) -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeAdvertisingData</string>
+            <key>NSPrivacyCollectedDataTypeLinkedToUser</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <true/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeThirdPartyAdvertising</string>
+            </array>
+        </dict>
+        <!-- Çerez / tanımlayıcılar (AdMob) -->
+        <dict>
+            <key>NSPrivacyCollectedDataType</key>
+            <string>NSPrivacyCollectedDataTypeOtherDiagnosticData</string>
+            <key>NSPrivacyCollectedDataTypeLinkedToUser</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypeTracking</key>
+            <false/>
+            <key>NSPrivacyCollectedDataTypePurposes</key>
+            <array>
+                <string>NSPrivacyCollectedDataTypePurposeAppFunctionality</string>
+            </array>
+        </dict>
+    </array>
+
+    <!-- ─── İzleme ─── -->
+    <!-- AdMob IDFA kullanıyorsa true yapın ve ATT izni ekleyin -->
+    <key>NSPrivacyTracking</key>
+    <true/>
+    <key>NSPrivacyTrackingDomains</key>
+    <array>
+        <string>googlesyndication.com</string>
+        <string>doubleclick.net</string>
+        <string>googleadservices.com</string>
+    </array>
+</dict>
+</plist>

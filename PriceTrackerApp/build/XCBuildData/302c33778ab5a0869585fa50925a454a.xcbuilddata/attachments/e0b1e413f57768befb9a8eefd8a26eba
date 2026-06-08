@@ -1,4 +1,0 @@
-module UserMessagingPlatformTarget {
-umbrella "/Users/hasantekbas/Library/Developer/Xcode/DerivedData/PriceTracker-abvftwbjlekaqlgiafhghchlkwya/SourcePackages/checkouts/swift-package-manager-google-user-messaging-platform/UserMessagingPlatformTarget/include"
-export *
-}

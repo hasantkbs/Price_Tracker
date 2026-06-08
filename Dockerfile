@@ -70,7 +70,7 @@ RUN mkdir -p /app/data && chown tracker:tracker /app/data
 VOLUME ["/app/data"]
 
 # --- Runtime env defaults ----------------------------------------------------
-ENV DB_PATH=/app/data/price_tracker.db \
+ENV DB_PATH=/app/data/tagtrack.db \
     PORT=8001 \
     HOST=0.0.0.0 \
     PYTHONUNBUFFERED=1 \

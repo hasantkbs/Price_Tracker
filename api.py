@@ -6,7 +6,7 @@ import database
 from calibrate import calibrate_and_add_product, recalibrate_product
 from tracker import get_product_price
 
-app = FastAPI(title="Price Tracker API", version="2.0.0")
+app = FastAPI(title="TagTrack API", version="2.0.0")
 
 app.add_middleware(
     CORSMiddleware,

@@ -47,7 +47,7 @@ services:
   # ── Caddy reverse proxy (HTTPS + TLS otomatik) ─────────────────────────────
   caddy:
     image: caddy:2-alpine
-    container_name: price-tracker-caddy
+    container_name: tagtrack-caddy
     restart: unless-stopped
     profiles: ["proxy"]          # sadece: docker compose --profile proxy up
 
